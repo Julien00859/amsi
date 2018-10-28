@@ -1,2 +1,7 @@
 # amsi
-Uni Project
+
+University project
+
+# UML Class Diagram
+
+![](Model.png)
