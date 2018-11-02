@@ -61,8 +61,8 @@
 		\begin{flushright}
 			\large
 			\textit{Professeurs}\\
-			Mr. Moussa \textsc{Amrani}\\
-			Mr. Tony \textsc{Leclercq}
+			M. Moussa \textsc{Amrani}\\
+			M. Tony \textsc{Leclercq}
 		\end{flushright}
 	\end{minipage}
 	
@@ -94,10 +94,6 @@
 \newpage
 %----------------------------------------------------------------------------------------
 
-\section{Introduction}
-
- Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc rutrum velit metus. Sed dictum lacus erat, non pulvinar dui condimentum id. Maecenas rhoncus sagittis quam, semper cursus tellus semper quis. Sed sem ipsum, euismod vitae tincidunt vel, molestie ut purus. Nullam a diam ac quam luctus gravida. Nulla blandit, metus eu fermentum ultricies, nibh dolor accumsan eros, ut pulvinar ligula nibh convallis mi. Nunc consequat sit amet nunc sed porttitor. Vestibulum feugiat consectetur lacus, quis rhoncus orci gravida hendrerit. Nunc ultrices nunc odio, bibendum lobortis purus posuere nec. Nulla euismod nulla in sollicitudin maximus. Sed risus arcu, dapibus sit amet turpis ac, commodo sagittis quam.\\
-
 \section{Plateau de Jeu}
 
 \subsection{Question 1}
@@ -108,7 +104,7 @@ Etablir une première version d'un diagramme de classes Uml qui fixe les éléme
 \subsection{Question 2}
 Enrichir cette première version avec les détails nécessaires concernant les joueurs et leurs profils, ainsi que les niveaux. 
 
-\includegraphics[width=15 cm,height=18.5 cm]{Plateau.png}
+\includegraphics[width=15 cm,height=18 cm]{Plateau_TEX.png}
 
 \subsection{Question 3}
 Spécifier les contraintes suivantes, soit à l'aide d'éléments structurels dans le diagramme, éventuellement complétées par des contraintes en Ocl (ceci dépend de la manière dont le diagramme de classes est construit) :
@@ -121,13 +117,13 @@ Spécifier les contraintes suivantes, soit à l'aide d'éléments structurels da
    context Carte
    inv DansLesLimites
      self.cases->forAll(
-       case.absice >= 0
-       and case.absice < self.largeur
-       and case.ordonne >= 0
-       and case.ordonne < self.hauteur)
+       case.coordonne.absice >= 0
+       and case.coordonne.absice < self.largeur
+       and case.coordonne.ordonne >= 0
+       and case.coordonne.ordonne < self.hauteur)
  \end{verbatim}
   
-  \item Chaque niveau ne contient qu'un seul Cody, et qu'un seul coffre
+  \item Chaque niveau ne contient qu'un seul Cody, et qu'un seul coffre  
   
   \begin{verbatim}
     
@@ -137,6 +133,9 @@ Spécifier les contraintes suivantes, soit à l'aide d'éléments structurels da
     ).size() = 1    
     
   \end{verbatim}    
+  
+  En ce qui concerne Cody, la multiplicité répond à cette contrainte.\\
+  
   
   \item Un personnage ne peut pas se trouver sur un obstacle 
   
@@ -158,6 +157,8 @@ Spécifier les contraintes suivantes, soit à l'aide d'éléments structurels da
                  or c1.ordonne <> c2.ordonne))    
     
   \end{verbatim}     
+  
+  Nous considérons que les squelettes sont des cases de type Obstacle. Il est donc impossible qu'un squelette se trouve sur un obstacle du fait de l'unicité des cases reprise par la contrainte OCL ci-dessus. Cody doit être sur une case Traversable et donc ne peut pas être sur un squelette.\\
   
   \item Le coffre doit se trouver sur du gazon
   
@@ -203,19 +204,6 @@ Spécifier les contraintes suivantes, soit à l'aide d'éléments structurels da
   
 \end{enumerate}
 
-\subsection{Question 4}
-Pour la Figure 3,
-
-\begin{enumerate}
-  \item Définir le niveau décrit à l'aide d'un Diagramme d'Objets Uml, en cohérence avec le Diagramme de Classe obtenu au terme de la Question   
-  
-  \item Quelle propriété du jeu n'est pas satisfaite par ce niveau ?
-  
-  \item Est-il possible de définir une contrainte Ocl qui permette de vérifier cette propriété ? Pourquoi ?
-  
-\end{enumerate}
- 
-
 \section{Langage Play}
 
 \subsection{Question 5}
@@ -235,11 +223,6 @@ Modéliser le concept de procédure à partir d'une classe Procedure.
 Modéliser le concept d'expression comme indiqué en Section 3.3, à partir d'une classe Expression.
 
  \includegraphics[scale=0.5]{Play_Expression.png}
-
-\subsection{Question 8}
-
-Modéliser le concept d'instruction comme indiqué en Section 3.2, à partir d'une classe Instruction (qui fera usage de la classe Expression).
-
 
 
 \end{document}
