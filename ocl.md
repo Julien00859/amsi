@@ -2,7 +2,7 @@
 
 ## Règles relatives à la carte
 
-Les coordonnées d'une case doivent être bornées par la taille de leur carte.
+1) Les coordonnées d'une case doivent être bornées par la taille de leur carte.
 
     context Carte
     inv DansLesLimites
@@ -13,7 +13,7 @@ Les coordonnées d'une case doivent être bornées par la taille de leur carte.
         and case.ordonne < self.hauteur
     )
 
-Toutes les cases doivent avoir des coordonnées unique
+3+4) Toutes les cases doivent avoir des coordonnées unique
 
     context Carte
     inv CoordonneDesCasesUnique
@@ -21,7 +21,7 @@ Toutes les cases doivent avoir des coordonnées unique
         c1, c2 | c1 <> c2 implies (c1.absice <> c2.absice or c1.ordonne <> c2.ordonne)
     )
 
-Les téléporteurs doivent exister par pair de même couleur, ou le téléporteur unique doit être éteint.
+6) Les téléporteurs doivent exister par pair de même couleur, ou le téléporteur unique doit être éteint.
 
     context Teleporteur
     inv TeleporteursParPairOuEteint
@@ -38,7 +38,7 @@ Les téléporteurs doivent exister par pair de même couleur, ou le téléporteu
         and not self.actif
     )
 
-Les boutons doivent être de la même couleur que les téléporteurs de la carte
+7) Les boutons doivent être de la même couleur que les téléporteurs de la carte
 
     context Bouton
     self.carte.cases->exists(
@@ -46,14 +46,14 @@ Les boutons doivent être de la même couleur que les téléporteurs de la carte
                and tele.couleur = self.couleur
     )
 
-Il doit y avoir exactement un trésor par carte
+2) Il doit y avoir exactement un trésor par carte
 
     context Carte
     self.cases->select(
         case | case.oclIsTypeOf(Tresor)
     ).size() = 1
 
-Cody doit être sur une case traversable
+3+4) Cody doit être sur une case traversable
 
     context Cody
     inv TypeCase: self.carte.cases.forAll->(
@@ -86,7 +86,7 @@ Seuls les cases `Eau` peuvent être sur l'eau
 
 ### Cases spéciales
 
-Les cases `Buisson`, `Palmier` et `Tresor` doivent être sur du gazon
+5+8) Les cases `Buisson`, `Palmier` et `Tresor` doivent être sur du gazon
 
     context Buisson
     inv TypeGazon: self.sol = SolType.Gazon
