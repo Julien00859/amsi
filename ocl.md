@@ -13,6 +13,20 @@
         and case.ordonne < self.hauteur
     )
 
+2- Il doit y avoir exactement un trésor par carte
+
+    context Carte
+    self.cases->select(
+        case | case.oclIsTypeOf(Tresor)
+    ).size() = 1
+	
+3+4- Cody doit être sur une case traversable
+
+context Cody
+inv TypeCase: self.carte.cases.forAll->(
+	case.coordonne = self.coordonne implies case.oclIsKindOf(Traversable)
+)
+	
 3+4- Toutes les cases doivent avoir des coordonnées unique
 
     context Carte
@@ -46,19 +60,7 @@
                and tele.couleur = self.couleur
     )
 
-2- Il doit y avoir exactement un trésor par carte
 
-    context Carte
-    self.cases->select(
-        case | case.oclIsTypeOf(Tresor)
-    ).size() = 1
-
-3+4- Cody doit être sur une case traversable
-
-    context Cody
-    inv TypeCase: self.carte.cases.forAll->(
-        case.coordonne = self.coordonne implies case.oclIsKindOf(Traversable)
-    )
 
 ## Règles relatives au type de sol des cases
 
