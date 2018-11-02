@@ -29,7 +29,7 @@
 	
 	\textsc{\LARGE Université de Namur}\\[1.5cm] % Main heading such as the name of your university/college
 	
-	\textsc{\Large Analyse et modélisation des systèmes de données}\\[0.5cm] % Major heading such as course name
+	\textsc{\Large Analyse et modélisation des systèmes d'information}\\[0.5cm] % Major heading such as course name
 	
 	\textsc{\large Travail pratique}\\Groupe 14\\[0.5cm] % Minor heading such as course title
 	
@@ -111,7 +111,7 @@ Spécifier les contraintes suivantes, soit à l'aide d'éléments structurels da
 
 \begin{enumerate}
  
- \item Les coordonnees d'une case ne peuvent excéder les dimensions du niveau
+ \item Les coordonnées d'une case ne peuvent excéder les dimensions du niveau
  
  \begin{verbatim}
    context Carte
@@ -167,20 +167,23 @@ Spécifier les contraintes suivantes, soit à l'aide d'éléments structurels da
     inv TypeGazon: self.sol = SolType.Gazon
   \end{verbatim}     
   
-  \item  Un niveau doit toujours comporter deux tunnels de teleportation de même couleur, ou le tunnel unique doit être initialement fermé 
+  \item  Un niveau doit toujours comporter deux tunnels de téléportation de même couleur, ou le tunnel unique doit être initialement fermé 
   
   \begin{verbatim}
     context Teleporteur
     inv TeleporteursParPairOuEteint
     self.carte.cases->select(
-           tele | tele.oclIsTypeOf(Teleporteur)
-             and tele.couleur = self.couleur).size() = 2
-         or (
-           not self.carte.cases->exists(
-               tele | tele.oclIsTypeOf(Teleporteur)
-                 and tele <> self
-                 and tele.couleur = self.couleur
-    ) and not self.actif)
+        tele | tele.oclIsTypeOf(Teleporteur)
+               and tele.couleur = self.couleur
+    ).size() = 2
+    or (
+        not self.carte.cases->exists(
+            tele | tele.oclIsTypeOf(Teleporteur)
+                   and tele <> self
+                   and tele.couleur = self.couleur
+        )
+        and not self.actif
+    )
   \end{verbatim}     
   
   \item Un levier de téléportation ne peut être présent que s'il existe des tunnels de la même couleur
@@ -208,7 +211,7 @@ Spécifier les contraintes suivantes, soit à l'aide d'éléments structurels da
 
 \subsection{Question 5}
 
-Etablir une première version d'un diagramme de classe Uml qui fixe les éléments principaux :un Program(me) Play est un ensemble de procédures (dont l'une est la procédure principale).
+Établir une première version d'un diagramme de classe Uml qui fixe les éléments principaux :un Program(me) Play est un ensemble de procédures (dont l'une est la procédure principale).
 
  \includegraphics[scale=0.5]{Play_Q1.png}
 
