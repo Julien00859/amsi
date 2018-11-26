@@ -5,7 +5,7 @@
 Les coordonnées d'une case doivent être bornées par la taille de leur carte.
 
     context Carte
-    inv DansLesLimites
+    inv DansLesLimites:
     self.cases->forAll(
         case.absice >= 0
         and case.coordonne.absice < self.largeur
@@ -16,6 +16,7 @@ Les coordonnées d'une case doivent être bornées par la taille de leur carte.
 Il doit y avoir exactement un trésor par carte
 
     context Carte
+    inv TresorUnique:
     self.cases->select(
         case | case.oclIsTypeOf(Tresor)
     ).size() = 1
@@ -30,7 +31,7 @@ inv TypeCase: self.carte.cases.forAll->(
 Toutes les cases doivent avoir des coordonnées unique
 
     context Carte
-    inv CoordonneDesCasesUnique
+    inv CoordonneDesCasesUnique:
     self.cases->forAll(
         c1, c2 | c1 <> c2 implies (c1.absice <> c2.absice or c1.ordonne <> c2.ordonne)
     )
@@ -38,7 +39,7 @@ Toutes les cases doivent avoir des coordonnées unique
 Les téléporteurs doivent exister par pair de même couleur, ou le téléporteur unique doit être éteint.
 
     context Teleporteur
-    inv TeleporteursParPairOuEteint
+    inv TeleporteursParPairOuEteint:
     self.carte.cases->select(
         tele | tele.oclIsTypeOf(Teleporteur)
                and tele.couleur = self.couleur
@@ -55,6 +56,7 @@ Les téléporteurs doivent exister par pair de même couleur, ou le téléporteu
 Les boutons doivent être de la même couleur que les téléporteurs de la carte
 
     context Bouton
+    inv BoutonMemeCouleurQueTeleporteur:
     self.carte.cases->exists(
         tele | tele.oclIsTypeOf(Teleporteur)
                and tele.couleur = self.couleur
