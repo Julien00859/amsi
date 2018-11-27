@@ -13,7 +13,7 @@ Les coordonnées d'une case doivent être bornées par la taille de leur carte.
         and case.coordonne.ordonne < self.hauteur
     )
 
-Il doit y avoir exactement un trésor par carte
+Il doit y avoir exactement un trésor par carte.
 
     context Carte
     inv TresorUnique:
@@ -21,14 +21,7 @@ Il doit y avoir exactement un trésor par carte
         case | case.oclIsTypeOf(Tresor)
     ).size() = 1
 	
-Cody doit être sur une case traversable
-
-context Cody
-inv TypeCase: self.carte.cases.forAll->(
-	case.coordonne = self.coordonne implies case.oclIsKindOf(Traversable)
-)
-	
-Toutes les cases doivent avoir des coordonnées unique
+Toutes les cases doivent avoir des coordonnées unique.
 
     context Carte
     inv CoordonneDesCasesUnique:
@@ -62,7 +55,20 @@ Les boutons doivent être de la même couleur que les téléporteurs de la carte
                and tele.couleur = self.couleur
     )
 
+## Règles relatives aux entitées
 
+Les entités doivent être sur une case traversable et ne peuvent pas se chevaugés.
+
+    context Entite
+    inv EntiteSurCaseTraversable: self.carte.cases.forAll->(
+        case.coordonne = self.coordonne implies case.oclIsKindOf(Traversable)
+    )
+
+    inv SeulEntiteSurLaCase: self.carte.cases.forAll->(
+        e1, e2 | e1 <> e2 implies (
+            e1.coordonne.abcisse <> e2.coordonne.abcisse
+            or e1.coordonne.ordonne <> e2.coordonne.ordonne)
+    )
 
 ## Règles relatives au type de sol des cases
 
