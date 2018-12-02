@@ -57,18 +57,13 @@ Les boutons doivent être de la même couleur que les téléporteurs de la carte
 
 ## Règles relatives aux entitées
 
-Les entités doivent être sur une case traversable et ne peuvent pas se chevaugés.
+Les entités doivent être sur une case traversable
 
     context Entite
     inv EntiteSurCaseTraversable: self.carte.cases.forAll->(
         case.coordonne = self.coordonne implies case.oclIsKindOf(Traversable)
     )
 
-    inv SeulEntiteSurLaCase: self.carte.cases.forAll->(
-        e1, e2 | e1 <> e2 implies (
-            e1.coordonne.abcisse <> e2.coordonne.abcisse
-            or e1.coordonne.ordonne <> e2.coordonne.ordonne)
-    )
 
 ## Règles relatives au type de sol des cases
 
