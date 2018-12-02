@@ -20,6 +20,14 @@ Il doit y avoir exactement un trésor par carte.
     self.cases->select(
         case | case.oclIsTypeOf(Tresor)
     ).size() = 1
+
+Il n'y a qu'un cody par carte
+
+    context Carte
+    inv CodyUnique:
+    self.entites->select(
+        entite | entite.oclIsTypeOf(Cody)
+    ).size() = 1
 	
 Toutes les cases doivent avoir des coordonnées unique.
 
@@ -57,11 +65,11 @@ Les boutons doivent être de la même couleur que les téléporteurs de la carte
 
 ## Règles relatives aux entitées
 
-Les entités doivent être sur une case traversable
+Les entités doivent être sur une case accessible
 
     context Entite
-    inv EntiteSurCaseTraversable: self.carte.cases.forAll->(
-        case.coordonne = self.coordonne implies case.oclIsKindOf(Traversable)
+    inv EntiteSurCaseAccessible: self.carte.cases.forAll->(
+        case.coordonne = self.coordonne implies case.oclIsKindOf(Accessible)
     )
 
 
