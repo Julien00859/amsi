@@ -28,7 +28,7 @@ Il n'y a qu'un cody par carte
     self.entites->select(
         entite | entite.oclIsTypeOf(Cody)
     ).size() = 1
-	
+
 Toutes les cases doivent avoir des coordonnées unique.
 
     context Carte

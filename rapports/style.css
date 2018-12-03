@@ -1,0 +1,27 @@
+body {
+	width: 21cm;
+	padding: 0 3cm;
+	/*border: 1px solid black;*/
+}
+
+img {
+	max-width: calc(100% + 3cm);
+}
+
+pre {
+	padding: 0.2em;
+	background-color: #f5f5f5;
+	margin: 0;
+}
+
+li > * {
+	font-style: italic;
+}
+
+blockquote {
+	font-style: italic;
+	background-color: azure;
+	border-left: 2px solid steelblue;
+	padding-left: 0.5em;
+	margin-left: 0;
+}

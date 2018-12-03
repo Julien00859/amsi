@@ -22,13 +22,13 @@ Les diagrammes de classes et d'objet ainsi que le niveau original se trouvent en
 
 > Établir une première version d’un diagramme de classes Uml qui fixe les éléments principaux : le jeu est constitué d’une série de leçons découpées en niveaux.
 
-![diagrame](./images_final/PlateauQ1.png)
+![Plateau jeu, leçons, niveaux](./images_final/PlateauQ1.png)
 
 ### Question 5.2
 
 > Enrichir cette première version avec les détails nécessaires concernant les joueurs et leurs profils, ainsi que les niveaux.
 
-Diagramme en annexe
+![Plateau complet](./images_final/PlateauQ2.png)
 
 ### Question 5.3
 
@@ -36,90 +36,111 @@ Diagramme en annexe
 
 1) Les coordonnées d'une case ne peuvent excéder les dimensions du niveau.
 
-	context Carte
-	inv DansLesLimites:
-	self.cases->forAll(
-		case.absice >= 0
-		and case.coordonne.absice < self.largeur
-		and case.coordonne.ordonne >= 0
-		and case.coordonne.ordonne < self.hauteur
-	)
+```
+context Carte
+inv DansLesLimites:
+self.cases->forAll(
+    case.absice >= 0
+    and case.coordonne.absice < self.largeur
+    and case.coordonne.ordonne >= 0
+    and case.coordonne.ordonne < self.hauteur
+)
+```
  
 2) Chaque niveau ne contient qu’un seul Cody, et qu’un seul coﬀre.
- 
-	 context Carte
-	inv TresorUnique:
-	self.cases->select(
-		case | case.oclIsTypeOf(Tresor)
-	).size() = 1
 
-	context Carte
-	inv CodyUnique:
-	self.entites->select(
-		entite | entite.oclIsTypeOf(Cody)
-	).size() = 1
+``` 
+context Carte
+inv TresorUnique:
+self.cases->select(
+    case | case.oclIsTypeOf(Tresor)
+).size() = 1
+```
+```
+context Carte
+inv CodyUnique:
+self.entites->select(
+    entite | entite.oclIsTypeOf(Cody)
+).size() = 1
+```
 
 3) Un personnage ne peut pas se trouver sur un obstacle.
 
-	context Entite
-	inv EntiteSurCaseAccessible: self.carte.cases.forAll->(
-		case.coordonne = self.coordonne implies case.oclIsKindOf(Accessible)
-	)
+```
+context Entite
+inv EntiteSurCaseAccessible: self.carte.cases.forAll->(
+    case.coordonne = self.coordonne implies case.oclIsKindOf(Accessible)
+)
+```
 
 4) Deux personnages ne peuvent pas partager la même case.
 
-	context Carte
-	inv CoordonneDesCasesUnique:
-	self.cases->forAll(
-		c1, c2 | c1 <> c2 implies (c1.absice <> c2.absice or c1.ordonne <> c2.ordonne)
-	)
+```
+context Carte
+inv CoordonneDesCasesUnique:
+self.cases->forAll(
+    c1, c2 | c1 <> c2 implies (c1.absice <> c2.absice or c1.ordonne <> c2.ordonne)
+)
+```
 
-Chaque case de la carte a des coordonnées unique et il ne peut y avoir qu'au maximum une seule entité sur une case.
+Chaque case de la carte a des coordonnées unique et il ne peut y avoir qu'au maximum une seule entité sur une case via l'unicité.
 
 5) Le trésor doit se trouver sur du gazon.
 
-	context Tresor
-	inv TypeGazon: self.sol = SolType.Gazon
+```
+context Tresor
+inv TypeGazon: self.sol = SolType.Gazon
+```
 
 6) Un niveau doit toujours comporter deux tunnels de téléportation de même couleur, ou le tunnel unique doit être initialement fermé.
 
-	context Teleporteur
-	inv TeleporteursParPairOuEteint:
-	self.carte.cases->select(
-		tele | tele.oclIsTypeOf(Teleporteur)
-			   and tele.couleur = self.couleur
-	).size() = 2
-	or (
-		not self.carte.cases->exists(
-			tele | tele.oclIsTypeOf(Teleporteur)
-				   and tele <> self
-				   and tele.couleur = self.couleur
-		)
-		and not self.actif
-	)
+```
+context Teleporteur
+inv TeleporteursParPairOuEteint:
+self.carte.cases->select(
+    tele | tele.oclIsTypeOf(Teleporteur)
+           and tele.couleur = self.couleur
+).size() = 2
+or (
+    not self.carte.cases->exists(
+        tele | tele.oclIsTypeOf(Teleporteur)
+               and tele <> self
+               and tele.couleur = self.couleur
+    )
+    and not self.actif
+)
+```
 
 7) Un levier de téléportation ne peut être présent que s’il existe des tunnels de la même couleur.
 
-	context Bouton
-	inv BoutonMemeCouleurQueTeleporteur:
-	self.carte.cases->exists(
-		tele | tele.oclIsTypeOf(Teleporteur)
-			   and tele.couleur = self.couleur
-	)
+```
+context Bouton
+inv BoutonMemeCouleurQueTeleporteur:
+self.carte.cases->exists(
+    tele | tele.oclIsTypeOf(Teleporteur)
+           and tele.couleur = self.couleur
+)
+```
 
 8) Les palmiers et les buissons doivent obligatoirement être posés sur du gazon (sinon, ils ne peuvent pas pousser).
 
-	context Buisson
-	inv TypeGazon: self.sol = SolType.Gazon
-
-	context Palmier
-	inv TypeGazon: self.sol = SolType.Gazon
+```
+context Buisson
+inv TypeGazon: self.sol = SolType.Gazon
+```
+```
+context Palmier
+inv TypeGazon: self.sol = SolType.Gazon
+```
 
 ### Question 5.4
 
 1) Déﬁnir le niveau d´ecrit à l’aide d’un Diagramme d’Objets Uml, en cohérence avec le Diagramme de Classe obtenu au terme de la Question 5.2.
 
-Diagramme en annexe
+
+![Niveau à modéliser](./images_final/Niveau1.png)
+
+![Diagramme objet du niveau](./images_final/PlateauQ4.png)
 
 2) Quelle propriété du jeu n’est pas satisfaite par ce niveau ?
 
@@ -146,3 +167,95 @@ Les différents diagrammes se trouvent en annexe.
 ### Question 5.5
 
 > Établir une première version d’un diagramme de classe Uml qui ﬁxe les éléments principaux : un Program(me) Play est un ensemble de procédures (dont l’une est la procédure principale). 
+
+![Play procédure](./images_final/PlayQ5.png)
+
+### Question 5.6
+
+> Modéliser le concept de procédure à partir d’une classe Procedure.
+
+Non répondu
+
+### Question 5.7
+
+Modéliser le concept d’expression comme indiqué en Section 3.3, à partir d’une classe Expression.
+
+![Play expression](./images_final/PlayQ7.png)
+
+### Question 5.8
+
+Modéliser le concept d’instruction comme indiqué en Section 3.2, à partir d’une classe Instruction (qui fera usage de la classe Expression).
+
+![Play instruction](./images_final/PlayQ8.png)
+
+### Question 5.9
+
+> Spéciﬁer les contraintes OCL suivantes 
+
+1) Les noms des paramètres d’une procédure sont uniques.
+
+```
+    context ProcedureNormale
+    inv NomsParametresUniques: 
+    self.parametres.forAll -> (p1,p2 | p1 <> p2 implies p1.nom <> p2.nom)
+```
+2) Les noms des procédures sont uniques au sein d’un Program(me).
+
+```
+context Programme
+inv NomProceduresUniques:
+self.procedures.forAll->(p1,p2 | p1 <> p2 implies p1.nom <> p2.nom)
+```
+
+3) Au moins une procédure doit être nommée Cody.
+
+```
+context Programme
+inv NomProcedureCody:
+self.procedures.select->(p | p.nom = 'Cody').size() > 0
+```
+
+4) S’il n’y a qu’une seule procédure dans le programme, l’instruction `dig()` doit apparaître au moins une fois.
+
+```
+context Programme
+pre: self.procedures.size() = 1
+inv DigUneFois:
+self.procedures.first()
+    .instructions
+    .select->(i | i.oclIsKindOf(Dig))
+    .size() > 0
+```
+
+### Question 5.10
+
+> Les expressions et les instructions obéissent à des contraintes aﬁn de garantir leur usage correct.
+
+* Identiﬁer et préciser, en langage naturel, quelle(s) contraintes il faut imposer aux instructions pour qu’elles soient correctes.
+
+TODO
+
+* Même travail pour les expressions.
+
+TODO
+
+* Indiquer quels éléments dans les questions de Play+ permettent de spéciﬁer précisément ces contraintes.
+
+TODO
+
+### Question 5.11
+
+> Donnez le code play et le diagramme UML de ce code qui permet de terminer le niveau.
+
+![Niveau à résoudre](./images_final/Niveau2.png)
+
+    procedure Cody() {
+        right(2)
+        fight()
+        down()
+        dig()
+    }
+
+> Modélisez le code obtenu dans un diagramme objet.
+
+![Diagramme objet](./images_final/PlayQ11.png)

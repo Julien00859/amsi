@@ -2,14 +2,6 @@
 
 University project
 
-# OCL
+Generate HTLM output using
 
-All the OCL stuff is accessible in [this fine](ocl.md), it has indentation and comments.
-
-# UML Class Diagram
-
-This preview may not be accurate... Github does some kind of caching stuff
-
-![](Plateau.png)
-
-![](Play.png)
+	pandoc -o rapport.html -s --metadata pagetitle="AMSI" -c style.css rapport_janvier.md
