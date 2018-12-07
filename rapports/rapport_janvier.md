@@ -233,15 +233,15 @@ self.procedures.first()
 
 * Identiﬁer et préciser, en langage naturel, quelle(s) contraintes il faut imposer aux instructions pour qu’elles soient correctes.
 
-TODO
+  - Les expressions passées en argument dans un appel de procédure doivent être du même type que celles déclarées en parametre de la procédure.
 
 * Même travail pour les expressions.
 
-TODO
+  - La contrainte explicitée au point précédent affecte également la classe Expression. Elles sont donc intimement liées.
 
 * Indiquer quels éléments dans les questions de Play+ permettent de spéciﬁer précisément ces contraintes.
 
-TODO
+  - Les éléments Type et Declaration qui sont liés aux Expressions vont permettre de spécifier cette contrainte OCL. 
 
 ### Question 5.11
 
@@ -259,3 +259,138 @@ TODO
 > Modélisez le code obtenu dans un diagramme objet.
 
 ![Diagramme objet](./images_final/PlayQ11.png)
+
+### Question 5.12
+
+> Définir, à l'aide de l'Editeur de Niveau, un niveau original permettant d'illustrer les concepts de boucles imbriquées, de portée de variables, et de récursivitée.
+
+   TODO
+
+### Question 5.13
+
+> Modéliser le concept de Type, constitué des types primitifs, des tableaux et des enregistrements. La modélisation doit pouvoir capturer tous les exemples données en §4.1.
+
+   TODO
+
+### Question 5.14
+
+> Modifier le détail d'un Program(me) afinn qu'elle réponde à la nouvelle définition : un Program(me) est constituée d'un ensemble de déclarations (cf. Section 4.2), et modéliser le concept de Declaration.
+
+    TODO
+
+### Question 5.15
+
+> Modifier le détail du concept Instruction afin d'ajouter les nouveaux éléments définis en Section 4.3.
+
+    TODO
+
+### Question 5.16
+
+> Modifier le détail du concept Expression afin de refleter les modifications définis en Section 4.3.
+ 
+    TODO
+
+### Question 5.17
+
+> Spécifier une contrainte Ocl permettant de vérifier qu'une déclaration de type est bien formée :
+
+	1. la liste de champs d'un enregistrement est non-vide ;
+	
+	TODO
+	
+	2. un tableau comporte au moins une dimension qui doit être strictement positive.
+	
+	TODO
+	
+### Question 5.18
+
+> Spécifier une contrainte Ocl vérifiant l'unicité des déclarations au sein de leur contexte :
+ 
+* Les noms de variables au sein d'une (instance d') Action ;
+ 
+	TODO
+ 
+* les noms de variables déclarées au sein d'une procédure ;
+ 
+	TODO
+ 
+* les noms de variables déclarées au sein d'un corps de procédure ;
+ 
+	TODO
+ 
+* les noms des champs au sein d'un enregistrement.
+
+	TODO
+ 
+### Question 5.19 
+
+> Spécifier en Ocl le contrat Ocl sur une opération type(exp : Expression) : Type qui renvoie le type d'une expression :
+
+* Le type des littéraux est le type qui leur correspond (par exemple, true a pour type Booleen, 1 a pour type Entier, "aa" a pour type String) ;
+ 
+	TODO
+ 
+* Le type d'une expression unaire est lié au type de son opérateur, à condition que sa sous-expression corresponde (par exemple, -1 doit avoir une sous-expression de type entier ou réel, et not b impose que b soit de type booléen) ;
+ 
+	TODO
+ 
+* Le type d'une expression binaire est lié au type de son opérateur (similaire au cas unaire, à vous de trouver des exemples pertinents) ;
+ 
+	TODO
+ 
+* Le type d'une expression parenthésée est le type de sa sous-expression ;
+ 
+	TODO
+ 
+* Le type d'un accès à une variable est son type de déclaration ;
+ 
+	TODO
+ 
+* Le type d'une expression gauche correspondant à l'accès à un champ est le type de sa déclaration dans l'enregistrement ;
+ 
+	TODO
+ 
+* Le type d'une expression gauche d'accès à une case de tableau est le type de déclaration du tableau.
+
+	TODO
+ 
+### Question 5.20
+
+> Spécifier le contrat Ocl sur une opération estValide() : boolean qui vérifie qu'une instruction est valide :
+
+* Les gardes des instructions composées doivent posséder un type booleen ;
+  
+	TODO
+ 
+* Les paramètres des instructions d'actions doivent être entier ;
+ 
+	TODO
+ 
+* Les parties gauche et droite d'une affectation doivent être de même type ;
+ 
+	TODO
+ 
+* Le type de retour d'une procédure doit toujours être void.
+
+	TODO
+ 
+### Question 5.21
+ 
+> Les instructions d'actions primitives de déplacement obéissent à une logique particulière en présence de certains éléments. En supposant l'existence d'une opération prec mouv() : Déplacement qui retourne la direction du dernier déplacement effectué, spécifier les contrats Ocl sur l'ensemble de ces instructions :
+
+* Lorsqu'une telle instruction tente d'accéder une case où se trouve un obstacle, le déplacement n'est pas effectué ;
+ 
+	TODO
+	
+* Lorsqu'une telle instruction tente d'accéder une case où se trouve un tunnel, on ressort dans la case suivant le dernier mouvement à partir de l'autre tunnel ;
+ 
+	TODO
+ 
+* Lorsqu'on saute dans une direction à partir d'une case, on se atterit deux cases plus loin dans la même direction ; s'il y a un obstacle dans la case suivante, on reste sur place.
+
+	TODO
+
+### Question 5.22
+
+> Donner le code Play+ permettant de résoudre votre niveau original défini dans la Question 5.12.
+
