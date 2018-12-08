@@ -49,7 +49,7 @@ self.cases->forAll(
  
 2) Chaque niveau ne contient qu’un seul Cody, et qu’un seul coﬀre.
 
-``` 
+```
 context Carte
 inv TresorUnique:
 self.cases->select(
@@ -166,7 +166,7 @@ Les différents diagrammes se trouvent en annexe.
 
 ### Question 5.5
 
-> Établir une première version d’un diagramme de classe Uml qui ﬁxe les éléments principaux : un Program(me) Play est un ensemble de procédures (dont l’une est la procédure principale). 
+> Établir une première version d’un diagramme de classe Uml qui ﬁxe les éléments principaux : un Program(me) Play est un ensemble de procédures (dont l’une est la procédure principale).
 
 ![Play procédure](./images_final/PlayQ5.png)
 
@@ -190,13 +190,13 @@ Modéliser le concept d’instruction comme indiqué en Section 3.2, à partir d
 
 ### Question 5.9
 
-> Spéciﬁer les contraintes OCL suivantes 
+> Spéciﬁer les contraintes OCL suivantes
 
 1) Les noms des paramètres d’une procédure sont uniques.
 
 ```
     context ProcedureNormale
-    inv NomsParametresUniques: 
+    inv NomsParametresUniques:
     self.parametres.forAll -> (p1,p2 | p1 <> p2 implies p1.nom <> p2.nom)
 ```
 2) Les noms des procédures sont uniques au sein d’un Program(me).
@@ -223,8 +223,7 @@ pre: self.procedures.size() = 1
 inv DigUneFois:
 self.procedures.first()
     .instructions
-    .select->(i | i.oclIsKindOf(Dig))
-    .size() > 0
+    .any->(i | i.oclIsTypeOf(Dig))
 ```
 
 ### Question 5.10
@@ -241,7 +240,7 @@ self.procedures.first()
 
 * Indiquer quels éléments dans les questions de Play+ permettent de spéciﬁer précisément ces contraintes.
 
-  - Les éléments Type et Declaration qui sont liés aux Expressions vont permettre de spécifier cette contrainte OCL. 
+  - Les éléments Type et Declaration qui sont liés aux Expressions vont permettre de spécifier cette contrainte OCL.
 
 ### Question 5.11
 
@@ -266,7 +265,7 @@ self.procedures.first()
 
 > Définir, à l'aide de l'Editeur de Niveau, un niveau original permettant d'illustrer les concepts de boucles imbriquées, de portée de variables, et de récursivitée.
 
-   TODO
+![Play+ niveau original](./images_final/Play+Q12.png)
 
 ### Question 5.13
 
@@ -296,22 +295,22 @@ self.procedures.first()
 
 > Spécifier une contrainte Ocl permettant de vérifier qu'une déclaration de type est bien formée :
 
-1. la liste de champs d'un enregistrement est non-vide ;
+1) la liste de champs d'un enregistrement est non-vide ;
 
 ```
 context Enregistrement
 inv listeChampsNonVide:
 self.tuples->forAll(t | not OCLIsUndefined(t.nom))
-```	
-	     
-	
-2. un tableau comporte au moins une dimension qui doit être strictement positive.
+```    
+         
+    
+2) un tableau comporte au moins une dimension qui doit être strictement positive.
 
 ```
 context Array
 inv tailePositive: self.taille >= 0
 ```
-	
+    
 ### Question 5.18
 
 > Spécifier une contrainte Ocl vérifiant l'unicité des déclarations au sein de leur contexte :
@@ -339,12 +338,12 @@ Non répondu, quelle différence avec une variable locale ?
 ```
 context Enregistrement
 inv nomChampUnique:
-self.tuples.forAll(
+self.tuples->forAll(
     t1, t2 | t1 <> t2 implies t1.nom <> t2.nom
 )
 ```
  
-### Question 5.19 
+### Question 5.19
 
 > Spécifier en Ocl le contrat Ocl sur une opération type(exp : Expression) : Type qui renvoie le type d'une expression :
 
@@ -378,67 +377,128 @@ self.type.oclIsKindOf(Boolean)
  
 ```
 
-
-
 ```
  
 * Le type d'une expression binaire est lié au type de son opérateur (similaire au cas unaire, à vous de trouver des exemples pertinents) ;
  
-	TODO
+```
+context Binaire
+pre: self.type.oclIsTypeOf(Boolean)
+def operateursBooleensBinaire: Bag(Operation) = {Operation.and, Operation.not, Operation.xor, Operation.or}
+inv expressionBinaireTypeBooleen: 
+self.type = self.expressionGauche AND self.type = self.expressionDroite AND operateursBooleensBinaire.any->(o | o.operation = self.operation)
+
+context Binaire
+pre: self.type.oclIsTypeOf(Integer) OR self.type.oclIsTypeOf(Real)
+def operateursNombresBinaire: Bag(Operation) = {Operation.+, Operation.-, Operation.*, Operation./, Operation.%, Operation.<, Operation.>, Operation.<=, Operation.>=, Operation.==, Operation.!=}
+inv expressionBinaireTypeIntegerReal: 
+(self.expressionGauche.type.oclIsTypeOf(Integer) OR self.expressionGauche.type.oclIsTypeOf(Real)) 
+AND 
+(self.expressionDroite.type.oclIsTypeOf(Integer) OR self.expressionDroite.type.oclIsTypeOf(Real))
+AND 
+operateursBooleensBinaire->any(o | o.operation = self.operation)
+
+```
  
 * Le type d'une expression parenthésée est le type de sa sous-expression ;
  
-	TODO
+```
+context Parenthese
+inv contrainteExpressionParenthesee:
+self.type = expression.type
+
+```
  
 * Le type d'un accès à une variable est son type de déclaration ;
  
-	TODO
- 
+```
+context Acces
+inv contrainteAcces:
+self.type = self.variable.type
+```
+
 * Le type d'une expression gauche correspondant à l'accès à un champ est le type de sa déclaration dans l'enregistrement ;
- 
-	TODO
- 
+
+Non représenté sur le schéma global.
+
+Un enregistrement serait représenté par une expression litérale (LiterayRecord) ayant le type Enregistrement et serait une spécification d’une expression composite. Cette expression composite serait composée d’autres expression (ses pairs clé, valeur) pour lequels la clé serait de type String et la valeur du type de la valeur associé au tuple dont le nom est la clé pour l’enregistrement associé.
+
+L’accès à une valeur d’un enregistrement serait une expression simple ayant pour type le type de la valeur du champ de l’enregistrement associé (association par un enregistrement litéral ou par une variable de type Enregistrement). Cet accès serait composée d’une clé, une expression simple de type String, devant exister dans l’enregistrement.
+
 * Le type d'une expression gauche d'accès à une case de tableau est le type de déclaration du tableau.
 
-	TODO
- 
+Non représenté sur le schéma global.
+
+Un tableau serait représenté par une expression litérale (LiteralArray) ayant le type Array et qui serait une spécification d’une expression composite. Cette expression composite serait composée d’autres expressions (ses éléments) tous du même type que le type associé au type Array du LiteralArray.
+
+L’accès à un élément d’un tableau serait une expression simple ayant pour type le type des éléments de l’Array associée (association par un tableau llitéral ou par une variable de type Array). Cet accès serait composé d’un indice, une expression simple de type Integer, devant se trouver dans les limites du tableau.
+
 ### Question 5.20
 
 > Spécifier le contrat Ocl sur une opération estValide() : boolean qui vérifie qu'une instruction est valide :
 
 * Les gardes des instructions composées doivent posséder un type booleen ;
-  
-	TODO
+
+```
+context InstructionComposee
+inv GardeBooleenne:
+self.garde.type.oclIsTypeOf(Boolean)
+```
  
 * Les paramètres des instructions d'actions doivent être entier ;
- 
-	TODO
+
+```
+context Deplacement
+inv ArgumentEntier:
+self.argument.type.oclIsTypeOf(Integer)
+```
  
 * Les parties gauche et droite d'une affectation doivent être de même type ;
- 
-	TODO
+
+```
+context Affectation
+inv VariableEtValeurOntLeMemeType:
+self.expression.type = self.variable.type
+```
  
 * Le type de retour d'une procédure doit toujours être void.
 
-	TODO
+```
+context AppelDeProcedure
+inv ProcedureTypeVoid
+self.procedureAppelee.type.OclIsTypeOf(Void)
+```
  
 ### Question 5.21
  
 > Les instructions d'actions primitives de déplacement obéissent à une logique particulière en présence de certains éléments. En supposant l'existence d'une opération prec mouv() : Déplacement qui retourne la direction du dernier déplacement effectué, spécifier les contrats Ocl sur l'ensemble de ces instructions :
 
 * Lorsqu'une telle instruction tente d'accéder une case où se trouve un obstacle, le déplacement n'est pas effectué ;
- 
-	TODO
-	
+
+```
+context Cody::prec_move(dir: Direction)
+inv SeDeplaceSurUneCaseNonAccessible:
+pre: not self.carte.cases->any(case |
+    case.coordonne.abscisse = self.coordonne.abscisse + (
+        dir = Direction.Est implies 1
+        or dir = Direction.Ouest implies -1
+        or (dir <> Direction.Est and dir <> Direction.Ouest) implies 0)
+    and case.coordonne.ordonne = self.coordonne.ordonne + (
+        dir = Direction.Sud implies 1
+        or dir = Direction.Nord implies -1
+        or (dir <> Direction.Sud and dir <> Direction.Nord) implies 0)
+    and case.OclIsKindOf(Accessible))
+post: self.coordonne = self.coordonne@pre
+```
+
 * Lorsqu'une telle instruction tente d'accéder une case où se trouve un tunnel, on ressort dans la case suivant le dernier mouvement à partir de l'autre tunnel ;
  
-	TODO
+Non répondu
  
 * Lorsqu'on saute dans une direction à partir d'une case, on se atterit deux cases plus loin dans la même direction ; s'il y a un obstacle dans la case suivante, on reste sur place.
 
-	TODO
+Non répondu
 
 ### Question 5.22
 
 > Donner le code Play+ permettant de résoudre votre niveau original défini dans la Question 5.12.
-
