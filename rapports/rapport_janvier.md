@@ -376,6 +376,17 @@ self.type.oclIsKindOf(Boolean)
 * Le type d'une expression unaire est lié au type de son opérateur, à condition que sa sous-expression corresponde (par exemple, -1 doit avoir une sous-expression de type entier ou réel, et not b impose que b soit de type booléen) ;
  
 ```
+context Unaire
+pre: self.type.oclIsTypeOf(Boolean)
+def operateursBooleensUnaire: Bag(Operation) = {Operation.not}
+inv expressionUnaireTypeBoolean:
+self.type = self.expression.type AND operateursBooleensUnaire.any->(o | o = self.operation)
+
+context Unaire
+pre: self.type.oclIsTypeOf(Integer) or self.type.oclIsTypeOf(Real) 
+def operateursNombresUnaire: Bag(Operation) = {Operation.+, Operation.-}
+inv expressionUnaireTypeIntegerReal:
+(self.expression.type.ocslIsTypeOf(Integer) OR self.expression.type.ocslIsTypeOf(Real)) AND operateursNombresUnaire.any->(o | o = self.operation)
 
 ```
  
@@ -502,3 +513,43 @@ Non répondu
 ### Question 5.22
 
 > Donner le code Play+ permettant de résoudre votre niveau original défini dans la Question 5.12.
+
+```
+
+int deplacementB := 2
+
+procedure Cody() {
+    
+    int deplacementA := 3
+    int count := 0
+	while(deplacementA > 0){
+	    right(deplacementA)
+	    fight()
+	    while(deplacementB > 0){
+	        down(deplacementB)
+	        deplacementB = deplacementB-1
+	    }
+	    count = count + 1
+	    deplacementB = 3-count
+	    deplacementA = deplacementA-1
+	}
+	recursion(3)
+}
+
+procedure recursion(int x){
+    if(x == 0){
+        dig()
+    }
+    if(x == 1){
+        right(x)
+    }
+    if(x == 2){
+        down(x)
+    }
+    if(x == 3){
+        left(x)
+    }
+    recursion(x-1)
+}
+
+```
