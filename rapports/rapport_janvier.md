@@ -350,11 +350,37 @@ self.tuples.forAll(
 
 * Le type des littéraux est le type qui leur correspond (par exemple, true a pour type Booleen, 1 a pour type Entier, "aa" a pour type String) ;
  
-	TODO
+```
+context LiteralInteger
+inv typeLiteralIntegerCorrect:
+self.type.oclIsKindOf(Integer)
+
+context LiteralString
+inv typeLiteralStringCorrect:
+self.type.oclIsKindOf(String)
+
+context LiteralVoid
+inv typeLiteralVoidCorrect:
+self.type.oclIsKindOf(Void)
+
+context LiteralReal
+inv typeLiteralRealCorrect:
+self.type.oclIsKindOf(Real)
+
+context LiteralBoolean
+inv typeLiteralBooleanCorrect:
+self.type.oclIsKindOf(Boolean)
+
+
+```
  
 * Le type d'une expression unaire est lié au type de son opérateur, à condition que sa sous-expression corresponde (par exemple, -1 doit avoir une sous-expression de type entier ou réel, et not b impose que b soit de type booléen) ;
  
-	TODO
+```
+
+
+
+```
  
 * Le type d'une expression binaire est lié au type de son opérateur (similaire au cas unaire, à vous de trouver des exemples pertinents) ;
  
