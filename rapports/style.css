@@ -25,3 +25,15 @@ blockquote {
 	padding-left: 0.5em;
 	margin-left: 0;
 }
+
+@media print {
+	p {
+		page-break-before: avoid;
+		page-break-inside: avoid;
+		page-break-after: avoid;
+	}
+
+	h1, h2, h3, h4, h5 {
+		page-break-before: auto;
+	}
+}
