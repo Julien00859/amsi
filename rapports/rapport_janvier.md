@@ -260,6 +260,8 @@ self.procedures.first()
 
 ![Diagramme objet](./images_final/PlayQ11.png)
 
+## Modélisation de Play+
+
 ### Question 5.12
 
 > Définir, à l'aide de l'Editeur de Niveau, un niveau original permettant d'illustrer les concepts de boucles imbriquées, de portée de variables, et de récursivitée.
@@ -270,57 +272,77 @@ self.procedures.first()
 
 > Modéliser le concept de Type, constitué des types primitifs, des tableaux et des enregistrements. La modélisation doit pouvoir capturer tous les exemples données en §4.1.
 
-   TODO
+![Play+ Type](./images_final/Play+Q13.png)
 
 ### Question 5.14
 
-> Modifier le détail d'un Program(me) afinn qu'elle réponde à la nouvelle définition : un Program(me) est constituée d'un ensemble de déclarations (cf. Section 4.2), et modéliser le concept de Declaration.
+> Modifier le détail d'un Program(me) afin qu'elle réponde à la nouvelle définition : un Program(me) est constituée d'un ensemble de déclarations (cf. Section 4.2), et modéliser le concept de Declaration.
 
-    TODO
+![Play+ Déclaration](./images_final/Play+Q14.png)
 
 ### Question 5.15
 
 > Modifier le détail du concept Instruction afin d'ajouter les nouveaux éléments définis en Section 4.3.
 
-    TODO
+![Play+ Instruction](./images_final/Play+Q15.png)
 
 ### Question 5.16
 
 > Modifier le détail du concept Expression afin de refleter les modifications définis en Section 4.3.
  
-    TODO
+![Play+ Expression](./images_final/Play+Q16.png)
 
 ### Question 5.17
 
 > Spécifier une contrainte Ocl permettant de vérifier qu'une déclaration de type est bien formée :
 
-	1. la liste de champs d'un enregistrement est non-vide ;
+1. la liste de champs d'un enregistrement est non-vide ;
+
+```
+context Enregistrement
+inv listeChampsNonVide:
+self.tuples->forAll(t | not OCLIsUndefined(t.nom))
+```	
+	     
 	
-	TODO
-	
-	2. un tableau comporte au moins une dimension qui doit être strictement positive.
-	
-	TODO
+2. un tableau comporte au moins une dimension qui doit être strictement positive.
+
+```
+context Array
+inv tailePositive: self.taille >= 0
+```
 	
 ### Question 5.18
 
 > Spécifier une contrainte Ocl vérifiant l'unicité des déclarations au sein de leur contexte :
  
-* Les noms de variables au sein d'une (instance d') Action ;
- 
-	TODO
+* Les noms de variables au sein d'une (instance d') Action;
+
+Non répondu, quelle différence avec une variable locale ?
  
 * les noms de variables déclarées au sein d'une procédure ;
  
-	TODO
+```
+context Procedure
+inv variableLocalesUnique:
+self.variablesLocales->forAll(
+    v1, v2 | v1 <> v2 implies v1.nom <> v2.nom
+)
+```
  
 * les noms de variables déclarées au sein d'un corps de procédure ;
  
-	TODO
+Non répondu, quelle différence avec une variable locale ?
  
 * les noms des champs au sein d'un enregistrement.
 
-	TODO
+```
+context Enregistrement
+inv nomChampUnique:
+self.tuples.forAll(
+    t1, t2 | t1 <> t2 implies t1.nom <> t2.nom
+)
+```
  
 ### Question 5.19 
 
