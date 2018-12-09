@@ -369,8 +369,6 @@ self.type.oclIsKindOf(Real)
 context LiteralBoolean
 inv typeLiteralBooleanCorrect:
 self.type.oclIsKindOf(Boolean)
-
-
 ```
  
 * Le type d'une expression unaire est lié au type de son opérateur, à condition que sa sous-expression corresponde (par exemple, -1 doit avoir une sous-expression de type entier ou réel, et not b impose que b soit de type booléen) ;
@@ -431,19 +429,19 @@ self.type = self.variable.type
 
 * Le type d'une expression gauche correspondant à l'accès à un champ est le type de sa déclaration dans l'enregistrement ;
 
-Non représenté sur le schéma global.
-
-Un enregistrement serait représenté par une expression littérale (LiterayRecord) ayant le type Enregistrement et serait une spécification d’une expression composite. Cette expression composite serait composée d’autres expressions (ses paires: clé, valeur) pour lesquels la clé serait de type String et la valeur du type de la valeur associée au tuple dont le nom est la clé pour l’enregistrement associé.
-
-L’accès à une valeur d’un enregistrement serait une expression simple ayant pour type, le type de la valeur du champ de l’enregistrement associé (association par un enregistrement littéral ou par une variable de type Enregistrement). Cet accès serait composé d’une clé, une expression simple de type String, devant exister dans l’enregistrement.
+```
+context AccessArray
+inv contrainteAccessArray:
+self.type = self.array.type.typeElement
+```
 
 * Le type d'une expression gauche d'accès à une case de tableau est le type de déclaration du tableau.
 
-Non représenté sur le schéma global.
-
-Un tableau serait représenté par une expression littérale (LiteralArray) ayant le type Array et qui serait une spécification d’une expression composite. Cette expression composite serait composée d’autres expressions (ses éléments) tous du même type que le type associé au type Array du LiteralArray.
-
-L’accès à un élément d’un tableau serait une expression simple ayant pour type le type des éléments de l’Array associé (association par un tableau littéral ou par une variable de type Array). Cet accès serait composé d’un indice, une expression simple de type Integer, devant se trouver dans les limites du tableau.
+```
+context AccesEnregistrement
+inv contrainteAccesEnregistrement:
+self.type = self.enregistrement.type.typeElement
+```
 
 ### Question 5.20
 
@@ -516,25 +514,23 @@ Non répondu
 > Donner le code Play+ permettant de résoudre votre niveau original défini dans la Question 5.12.
 
 ```
-
-int deplacementB := 2
+int deplacementB = 2
 
 procedure Cody() {
-    
-    int deplacementA := 3
-    int count := 0
-	while(deplacementA > 0){
-	    right(deplacementA)
-	    fight()
-	    while(deplacementB > 0){
-	        down(deplacementB)
-	        deplacementB = deplacementB-1
-	    }
-	    count = count + 1
-	    deplacementB = 3-count
-	    deplacementA = deplacementA-1
-	}
-	recursion(3)
+    int deplacementA = 3
+    int count = 0
+    while(deplacementA > 0){
+        right(deplacementA)
+        fight()
+        while(deplacementB > 0){
+            down(deplacementB)
+            deplacementB = deplacementB - 1
+        }
+        count = count + 1
+        deplacementB = 3 - count
+        deplacementA = deplacementA - 1
+    }
+    recursion(3)
 }
 
 procedure recursion(int x){
@@ -552,5 +548,4 @@ procedure recursion(int x){
     }
     recursion(x-1)
 }
-
 ```
