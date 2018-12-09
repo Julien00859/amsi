@@ -8,13 +8,13 @@ Le jeu est donc constitué de deux parties importantes : l'interface visuelle (l
 
 ## Modélisation du plateau de jeu
 
-La carte est constitué de cases qui sont caractérisées par leurs coordonnées et leur nature (eau, gazon, pont). Les cases concrètes font toutes parties d'un des trois groupes suivants: les cases accessibles (sur lesquelles des entités peuvent évoluer), les obstacles franchissables (par dessus lesquels Cody peut sauter) et les obstacles infranchissables. La nature des cases est souvent forcée par la case concrète, on peut difficilement envisager un buisson sur un pont ou de l'eau.
+La carte est constituée de cases qui sont caractérisées par leurs coordonnées et leur nature (eau, gazon, pont). Les cases concrètes font toutes partie d'un des trois groupes suivants: les cases accessibles (sur lesquelles des entités peuvent évoluer), les obstacles franchissables (par-dessus lesquels Cody peut sauter) et les obstacles infranchissables. La nature des cases est souvent forcée par la case concrète, on peut difficilement envisager un buisson sur un pont ou de l'eau.
 
 Une Carte est associée à un Niveau qui est caractérisé par son nom ainsi que des statistiques relatives au score du joueur. Chaque niveau peut être suivi ou précédé par un autre niveau.
 
-Un ensemble de Niveau constitue une Leçon, à leur tour caractérisées par un nom et pouvant être suivies ou précédées d'autres leçons.
+Un ensemble de niveaux constitue une Leçon. Les leçons sont caractérisées par un nom et peuvant être suivies ou précédées d'autres leçons.
 
-Au final l'ensemble des Leçons constitue un jeu associé au profil d'un joueur dont la progression est définie par le dernier niveau qu'il a atteint. Le joueur peut être soit un visiteur soit un membre inscrit caractérisé par son nom, son age, son email et son mot de passe.
+Au final l'ensemble des Leçons constitue un jeu associé au profil d'un joueur dont la progression est définie par le dernier niveau qu'il a atteint. Le joueur peut être soit un visiteur soit un membre inscrit caractérisé par son nom, son âge, son email et son mot de passe.
 
 Les diagrammes de classes et d'objets ainsi que le niveau original se trouvent en annexe.
 
@@ -40,7 +40,7 @@ Les diagrammes de classes et d'objets ainsi que le niveau original se trouvent e
 context Carte
 inv DansLesLimites:
 self.cases->forAll(
-    case.absice >= 0
+    case.coordonne.absice >= 0
     and case.coordonne.absice < self.largeur
     and case.coordonne.ordonne >= 0
     and case.coordonne.ordonne < self.hauteur
@@ -68,7 +68,7 @@ self.entites->select(
 
 ```
 context Entite
-inv EntiteSurCaseAccessible: self.carte.cases.forAll->(
+inv EntiteSurCaseAccessible: self.carte.cases->forAll(
     case.coordonne = self.coordonne implies case.oclIsKindOf(Accessible)
 )
 ```
@@ -83,7 +83,7 @@ self.cases->forAll(
 )
 ```
 
-Chaque case de la carte a des coordonnées unique et il ne peut y avoir qu'au maximum une seule entité sur une case via l'unicité.
+Chaque case de la carte a des coordonnées uniques et il ne peut y avoir qu'au maximum une seule entité sur une case via l'unicité.
 
 5) Le trésor doit se trouver sur du gazon.
 
@@ -135,7 +135,7 @@ inv TypeGazon: self.sol = SolType.Gazon
 
 ### Question 5.4
 
-1) Déﬁnir le niveau d´ecrit à l’aide d’un Diagramme d’Objets Uml, en cohérence avec le Diagramme de Classe obtenu au terme de la Question 5.2.
+1) Définir le niveau décrit à l’aide d’un Diagramme d’Objets Uml, en cohérence avec le Diagramme de Classe obtenu au terme de la Question 5.2.
 
 
 ![Niveau à modéliser](./images_final/Niveau1.png)
@@ -146,11 +146,11 @@ inv TypeGazon: self.sol = SolType.Gazon
 
 Le niveau n'est pas soluble. Cody n'a pas moyen de se déplacer à l'emplacement du trésor.
 
-3) Est-il possible de déﬁnir une contrainte OCL qui permette de vériﬁer cette propriété ? Pourquoi ?
+3) Est-il possible de définir une contrainte OCL qui permette de vérifier cette propriété ? Pourquoi ?
 
 Non ce n'est pas possible de rédiger une contrainte OCL qui puisse vérifier qu'un niveau est soluble. Les contraintes OCL permettent de définir des contraintes entre des objets compte tenu du diagramme de classes auquel ils sont associés. Ce diagramme n'a aucune connaissance de la logique fonctionnelle d'un niveau.
 
-On peut tout au plus vérifier que le trésor se trouve à l'emplacement actuel de cody ou à une distance d'une action de déplacement et que cody ne se trouve pas entre deux squelettes ou plus. Au delà de ces cas de base, une contrainte OCL n'est pas suffisante pour trouver un chemin allant de Cody au trésor.
+On peut tout au plus vérifier que le trésor se trouve à l'emplacement actuel de Cody ou à une distance d'une action de déplacement et que Cody ne se trouve pas entre deux squelettes ou plus. Au-delà de ces cas de base, une contrainte OCL n'est pas suffisante pour trouver un chemin allant de Cody au trésor.
 
 ## Modélisation de Play
 
@@ -166,7 +166,7 @@ Les différents diagrammes se trouvent en annexe.
 
 ### Question 5.5
 
-> Établir une première version d’un diagramme de classes Uml qui ﬁxe les éléments principaux : un Program(me) Play est un ensemble de procédures (dont l’une est la procédure principale).
+> Établir une première version d’un diagramme de classes Uml qui fixe les éléments principaux : un Program(me) Play est un ensemble de procédures (dont l’une est la procédure principale).
 
 ![Play procédure](./images_final/PlayQ5.png)
 
@@ -190,7 +190,7 @@ Modéliser le concept d’instruction comme indiqué en Section 3.2, à partir d
 
 ### Question 5.9
 
-> Spéciﬁer les contraintes OCL suivantes
+> Spécifier les contraintes OCL suivantes
 
 1) Les noms des paramètres d’une procédure sont uniques.
 
@@ -228,9 +228,9 @@ self.procedures.first()
 
 ### Question 5.10
 
-> Les expressions et les instructions obéissent à des contraintes aﬁn de garantir leur usage correct.
+> Les expressions et les instructions obéissent à des contraintes afin de garantir leur usage correct.
 
-* Identiﬁer et préciser, en langage naturel, quelle(s) contraintes il faut imposer aux instructions pour qu’elles soient correctes.
+* Identifier et préciser, en langage naturel, quelle(s) contraintes il faut imposer aux instructions pour qu’elles soient correctes.
 
   - Les expressions passées en argument dans un appel de procédure doivent être du même type que celles déclarées en paramètre de la procédure.
 
@@ -238,7 +238,7 @@ self.procedures.first()
 
   - La contrainte explicitée au point précédent affecte également la classe Expression. Elles sont donc intimement liées.
 
-* Indiquer quels éléments dans les questions de Play+ permettent de spéciﬁer précisément ces contraintes.
+* Indiquer quels éléments dans les questions de Play+ permettent de spécifier précisément ces contraintes.
 
   - Les éléments Type et Declaration qui sont liés aux Expressions vont permettre de spécifier cette contrainte OCL.
 
@@ -263,19 +263,19 @@ self.procedures.first()
 
 ### Question 5.12
 
-> Définir, à l'aide de l'Editeur de Niveau, un niveau original permettant d'illustrer les concepts de boucles imbriquées, de portée de variables, et de récursivitée.
+> Définir, à l'aide de l'Editeur de Niveau, un niveau original permettant d'illustrer les concepts de boucles imbriquées, de portée de variables, et de récursivité.
 
 ![Play+ niveau original](./images_final/Play+Q12.png)
 
 ### Question 5.13
 
-> Modéliser le concept de Type, constitué des types primitifs, des tableaux et des enregistrements. La modélisation doit pouvoir capturer tous les exemples données en §4.1.
+> Modéliser le concept de Type, constitué des types primitifs, des tableaux et des enregistrements. La modélisation doit pouvoir capturer tous les exemples donnés en §4.1.
 
 ![Play+ Type](./images_final/Play+Q13.png)
 
 ### Question 5.14
 
-> Modifier le détail d'un Program(me) afin qu'elle réponde à la nouvelle définition : un Program(me) est constituée d'un ensemble de déclarations (cf. Section 4.2), et modéliser le concept de Declaration.
+> Modifier le détail d'un Program(me) afin qu'il réponde à la nouvelle définition : un Program(me) est constitué d'un ensemble de déclarations (cf. Section 4.2), et modéliser le concept de Declaration.
 
 ![Play+ Déclaration](./images_final/Play+Q14.png)
 
@@ -287,7 +287,7 @@ self.procedures.first()
 
 ### Question 5.16
 
-> Modifier le détail du concept Expression afin de refleter les modifications définis en Section 4.3.
+> Modifier le détail du concept Expression afin de refléter  les modifications définies en Section 4.3.
  
 ![Play+ Expression](./images_final/Play+Q16.png)
 
@@ -435,13 +435,13 @@ Non représenté sur le schéma global.
 
 Un enregistrement serait représenté par une expression littérale (LiterayRecord) ayant le type Enregistrement et serait une spécification d’une expression composite. Cette expression composite serait composée d’autres expressions (ses paires: clé, valeur) pour lesquels la clé serait de type String et la valeur du type de la valeur associée au tuple dont le nom est la clé pour l’enregistrement associé.
 
-L’accès à une valeur d’un enregistrement serait une expression simple ayant pour type, le type de la valeur du champ de l’enregistrement associé (association par un enregistrement littéral ou par une variable de type Enregistrement). Cet accès serait composée d’une clé, une expression simple de type String, devant exister dans l’enregistrement.
+L’accès à une valeur d’un enregistrement serait une expression simple ayant pour type, le type de la valeur du champ de l’enregistrement associé (association par un enregistrement littéral ou par une variable de type Enregistrement). Cet accès serait composé d’une clé, une expression simple de type String, devant exister dans l’enregistrement.
 
 * Le type d'une expression gauche d'accès à une case de tableau est le type de déclaration du tableau.
 
 Non représenté sur le schéma global.
 
-Un tableau serait représenté par une expression litérale (LiteralArray) ayant le type Array et qui serait une spécification d’une expression composite. Cette expression composite serait composée d’autres expressions (ses éléments) tous du même type que le type associé au type Array du LiteralArray.
+Un tableau serait représenté par une expression littérale (LiteralArray) ayant le type Array et qui serait une spécification d’une expression composite. Cette expression composite serait composée d’autres expressions (ses éléments) tous du même type que le type associé au type Array du LiteralArray.
 
 L’accès à un élément d’un tableau serait une expression simple ayant pour type le type des éléments de l’Array associé (association par un tableau littéral ou par une variable de type Array). Cet accès serait composé d’un indice, une expression simple de type Integer, devant se trouver dans les limites du tableau.
 
@@ -507,7 +507,7 @@ post: self.coordonne = self.coordonne@pre
  
 Non répondu
  
-* Lorsqu'on saute dans une direction à partir d'une case, on se atterit deux cases plus loin dans la même direction ; s'il y a un obstacle dans la case suivante, on reste sur place.
+* Lorsqu'on saute dans une direction à partir d'une case, on atterrit deux cases plus loin dans la même direction ; s'il y a un obstacle dans la case suivante, on reste sur place.
 
 Non répondu
 
