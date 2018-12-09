@@ -2,21 +2,21 @@
 
 ## Introduction
 
-Dans le cadre du cours d'Analyse et Modélisation de Systèmes d'Information, il nous est demandé de réaliser l'analyse et la modélisation du jeu *Golden Quest* développé par la société Coding Park. Ce jeu présente un personnage (Cody) sur une île au trésor. Le joueur doit écrire une procédure informatique afin de déplacer Cody sur l'île pour l'amener au trésor.
+Dans le cadre du cours d'Analyse et Modélisation des Systèmes d'Information, il nous est demandé de réaliser l'analyse et la modélisation du jeu *Golden Quest* développé par la société Coding Park. Ce jeu présente un personnage (Cody) sur une île au trésor. Le joueur doit écrire une procédure informatique afin de déplacer Cody sur l'île pour l'amener au trésor.
 
 Le jeu est donc constitué de deux parties importantes : l'interface visuelle (leçons, niveaux, plateaux de jeu) et l'interface de programmation (procédures, instructions, expressions).
 
 ## Modélisation du plateau de jeu
 
-La carte est constitué de cases qui sont caractérisées par leurs coordonnées et leur nature (eau, gazon, pont). Les cases concrètes font toutes parties d'un des trois groupes suivants: les cases accessibles (sur lesquelles des entités peuvent évoluer), les obstacles franchissable (par dessus lesquels Cody peut sauter) et les obstacles infranchissable. La nature des cases est souvent forcée par la case concrète, on peut difficilement envisager un buisson sur un pont ou de l'eau.
+La carte est constitué de cases qui sont caractérisées par leurs coordonnées et leur nature (eau, gazon, pont). Les cases concrètes font toutes parties d'un des trois groupes suivants: les cases accessibles (sur lesquelles des entités peuvent évoluer), les obstacles franchissables (par dessus lesquels Cody peut sauter) et les obstacles infranchissables. La nature des cases est souvent forcée par la case concrète, on peut difficilement envisager un buisson sur un pont ou de l'eau.
 
-Une Carte est associée à un Niveau qui est caractérisé par son nom ainsi que des statistiques relativent au score du joueur. Chaque niveau peut être suivi ou précédé par un autre niveau.
+Une Carte est associée à un Niveau qui est caractérisé par son nom ainsi que des statistiques relatives au score du joueur. Chaque niveau peut être suivi ou précédé par un autre niveau.
 
 Un ensemble de Niveau constitue une Leçon, à leur tour caractérisées par un nom et pouvant être suivies ou précédées d'autres leçons.
 
-Au final l'ensemble des Leçon constitue un jeu associé au profil d'un joueur dont la progression est défini par le dernier niveau qu'il a atteint. Le joueur peut être soit un visiteur soir un membre inscrit caractérisé par ses noms, age, email et mot de passe.
+Au final l'ensemble des Leçons constitue un jeu associé au profil d'un joueur dont la progression est définie par le dernier niveau qu'il a atteint. Le joueur peut être soit un visiteur soit un membre inscrit caractérisé par son nom, son age, son email et son mot de passe.
 
-Les diagrammes de classes et d'objet ainsi que le niveau original se trouvent en annexe.
+Les diagrammes de classes et d'objets ainsi que le niveau original se trouvent en annexe.
 
 ### Question 5.1
 
@@ -148,25 +148,25 @@ Le niveau n'est pas soluble. Cody n'a pas moyen de se déplacer à l'emplacement
 
 3) Est-il possible de déﬁnir une contrainte OCL qui permette de vériﬁer cette propriété ? Pourquoi ?
 
-Non ce n'est pas possible de rédiger une contrainte OCL qui puisse vérifier qu'un niveau est soluble. Les containtes OCL permettent de définir des contraintes entre des objets compte tenu du diagramme de classe auquels ils sont associés. Ce diagramme n'a aucune connaissance de la logique fonctionnelle d'un niveau.
+Non ce n'est pas possible de rédiger une contrainte OCL qui puisse vérifier qu'un niveau est soluble. Les contraintes OCL permettent de définir des contraintes entre des objets compte tenu du diagramme de classes auquel ils sont associés. Ce diagramme n'a aucune connaissance de la logique fonctionnelle d'un niveau.
 
-On peut tout au plus vérifier que le trésor se trouve à l'emplacement actuel de cody ou à une distance d'une action de déplacement et que cody ne se trouve pas entre deux squelettes ou plus. Au delà de ces cas de base, une contrainte OCL n'est pas suffisante pour trouver un chemin allat de Cody au trésor.
+On peut tout au plus vérifier que le trésor se trouve à l'emplacement actuel de cody ou à une distance d'une action de déplacement et que cody ne se trouve pas entre deux squelettes ou plus. Au delà de ces cas de base, une contrainte OCL n'est pas suffisante pour trouver un chemin allant de Cody au trésor.
 
 ## Modélisation de Play
 
-Le langage utilisé dans le jeu est composé de procédures, elles-même composées d'instructions qui font parfois appel à des expressions.
+Le langage utilisé dans le jeu est composé de procédures, elles-mêmes composées d'instructions qui font parfois appel à des expressions.
 
-Il existe une procédure principal par programme, c'est celle qui est exécutée en premier et qui arrêtera le jeu une fois finie.
+Il existe une procédure principale par programme, c'est celle qui est exécutée en premier et qui arrêtera le jeu une fois finie.
 
-Chaque instruction peut être soit simple soit composée. Les instructions simple exécutent soit une procédure primitive existante dans GoldenQuest soit une procédure définie par l'utilisateur. Parmi les actions primitives, on différencie les actions de déplacement des autres. En effet les actions de déplacement admettent un paramettre optionnel (tout comme les procédure utilisateur si ce n'est que l'utilisateur peut définir autant de paramettre qu'il le souhaite) alors que les autres actions primitives n'ont pas de parametre. Les instructions composées quant à elle regroupent une série d'autres instructions qui seront jouées 0, 1 ou plusieurs fois en fonction de l'expression associé à l'instruction composée. Parmi les instructions composés on retrouve les conditions et les itérations.
+Chaque instruction peut être soit simple soit composée. Les instructions simples exécutent soit une procédure primitive existante dans GoldenQuest soit une procédure définie par l'utilisateur. Parmi les actions primitives, on différencie les actions de déplacement des autres. En effet les actions de déplacement admettent un paramètre optionnel (tout comme les procédures définies par l'utilisateur, si ce n'est que l'utilisateur peut définir autant de paramètres qu'il le souhaite) alors que les autres actions primitives n'ont pas de paramètre. Les instructions composées, quant à elles, regroupent une série d'autres instructions qui seront jouées 0, 1 ou plusieurs fois en fonction de l'expression associée à l'instruction composée. Parmi les instructions composées, on retrouve les conditions et les itérations.
 
-Les expressions sont également simple ou composés. Les expressions simple sont des litéraux ou des variable tandis que les expressions composées permettent de regrouper ou d'effectuer des opérations sur d'autres expressions.
+Les expressions sont également simples ou composées. Les expressions simples sont des littéraux ou des variables tandis que les expressions composées permettent de regrouper ou d'effectuer des opérations sur d'autres expressions.
 
 Les différents diagrammes se trouvent en annexe.
 
 ### Question 5.5
 
-> Établir une première version d’un diagramme de classe Uml qui ﬁxe les éléments principaux : un Program(me) Play est un ensemble de procédures (dont l’une est la procédure principale).
+> Établir une première version d’un diagramme de classes Uml qui ﬁxe les éléments principaux : un Program(me) Play est un ensemble de procédures (dont l’une est la procédure principale).
 
 ![Play procédure](./images_final/PlayQ5.png)
 
@@ -232,7 +232,7 @@ self.procedures.first()
 
 * Identiﬁer et préciser, en langage naturel, quelle(s) contraintes il faut imposer aux instructions pour qu’elles soient correctes.
 
-  - Les expressions passées en argument dans un appel de procédure doivent être du même type que celles déclarées en parametre de la procédure.
+  - Les expressions passées en argument dans un appel de procédure doivent être du même type que celles déclarées en paramètre de la procédure.
 
 * Même travail pour les expressions.
 
@@ -308,7 +308,7 @@ self.tuples->forAll(t | not OCLIsUndefined(t.nom))
 
 ```
 context Array
-inv tailePositive: self.taille >= 0
+inv taillePositive: self.taille >= 0
 ```
     
 ### Question 5.18
@@ -381,7 +381,8 @@ pre: self.type.oclIsTypeOf(Boolean)
 def operateursBooleensUnaire: Bag(Operation) = {Operation.not}
 inv expressionUnaireTypeBoolean:
 self.type = self.expression.type AND operateursBooleensUnaire.any->(o | o = self.operation)
-
+```
+```
 context Unaire
 pre: self.type.oclIsTypeOf(Integer) or self.type.oclIsTypeOf(Real) 
 def operateursNombresUnaire: Bag(Operation) = {Operation.+, Operation.-}
@@ -398,7 +399,8 @@ pre: self.type.oclIsTypeOf(Boolean)
 def operateursBooleensBinaire: Bag(Operation) = {Operation.and, Operation.not, Operation.xor, Operation.or}
 inv expressionBinaireTypeBooleen: 
 self.type = self.expressionGauche AND self.type = self.expressionDroite AND operateursBooleensBinaire.any->(o | o.operation = self.operation)
-
+```
+```
 context Binaire
 pre: self.type.oclIsTypeOf(Integer) OR self.type.oclIsTypeOf(Real)
 def operateursNombresBinaire: Bag(Operation) = {Operation.+, Operation.-, Operation.*, Operation./, Operation.%, Operation.<, Operation.>, Operation.<=, Operation.>=, Operation.==, Operation.!=}
@@ -417,7 +419,6 @@ operateursBooleensBinaire->any(o | o.operation = self.operation)
 context Parenthese
 inv contrainteExpressionParenthesee:
 self.type = expression.type
-
 ```
  
 * Le type d'un accès à une variable est son type de déclaration ;
@@ -432,9 +433,9 @@ self.type = self.variable.type
 
 Non représenté sur le schéma global.
 
-Un enregistrement serait représenté par une expression litérale (LiterayRecord) ayant le type Enregistrement et serait une spécification d’une expression composite. Cette expression composite serait composée d’autres expression (ses pairs clé, valeur) pour lequels la clé serait de type String et la valeur du type de la valeur associé au tuple dont le nom est la clé pour l’enregistrement associé.
+Un enregistrement serait représenté par une expression littérale (LiterayRecord) ayant le type Enregistrement et serait une spécification d’une expression composite. Cette expression composite serait composée d’autres expressions (ses paires: clé, valeur) pour lesquels la clé serait de type String et la valeur du type de la valeur associée au tuple dont le nom est la clé pour l’enregistrement associé.
 
-L’accès à une valeur d’un enregistrement serait une expression simple ayant pour type le type de la valeur du champ de l’enregistrement associé (association par un enregistrement litéral ou par une variable de type Enregistrement). Cet accès serait composée d’une clé, une expression simple de type String, devant exister dans l’enregistrement.
+L’accès à une valeur d’un enregistrement serait une expression simple ayant pour type, le type de la valeur du champ de l’enregistrement associé (association par un enregistrement littéral ou par une variable de type Enregistrement). Cet accès serait composée d’une clé, une expression simple de type String, devant exister dans l’enregistrement.
 
 * Le type d'une expression gauche d'accès à une case de tableau est le type de déclaration du tableau.
 
@@ -442,7 +443,7 @@ Non représenté sur le schéma global.
 
 Un tableau serait représenté par une expression litérale (LiteralArray) ayant le type Array et qui serait une spécification d’une expression composite. Cette expression composite serait composée d’autres expressions (ses éléments) tous du même type que le type associé au type Array du LiteralArray.
 
-L’accès à un élément d’un tableau serait une expression simple ayant pour type le type des éléments de l’Array associée (association par un tableau llitéral ou par une variable de type Array). Cet accès serait composé d’un indice, une expression simple de type Integer, devant se trouver dans les limites du tableau.
+L’accès à un élément d’un tableau serait une expression simple ayant pour type le type des éléments de l’Array associé (association par un tableau littéral ou par une variable de type Array). Cet accès serait composé d’un indice, une expression simple de type Integer, devant se trouver dans les limites du tableau.
 
 ### Question 5.20
 
