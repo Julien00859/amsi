@@ -16,8 +16,8 @@ Otherwise, you can generate a nice HTML output using pandoc:
 
 Due to github doing some image caching, the following diagrams may not be up to date
 
-![Plateau][Plateau.png]
+![Plateau](Plateau.png)
 
-![Play][Play.png]
+![Play](Play.png)
 
-![Play+][PlayPlus.png]
+![Play+](PlayPlus.png)
