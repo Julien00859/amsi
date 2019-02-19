@@ -6,43 +6,43 @@ from declaration import Declaration
 from expression import Expression
 
 class Type(metaclass=AbstractClass):
-	expression: XOR[Expression]  # Le type peut typer une expression
-	declaration: XOR[Declaration]  # Le type peut typer une declaration
-	tableau: XOR[Tableau]  # Le type peut typer un tableau
-	pair: XOR[EnregistrementPair]  # Le type peut typer une paire
+    expression: XOR[Expression]  # Le type peut typer une expression
+    declaration: XOR[Declaration]  # Le type peut typer une declaration
+    tableau: XOR[Tableau]  # Le type peut typer un tableau
+    pair: XOR[EnregistrementPair]  # Le type peut typer une paire
 
 
 class TypePrimitif(Type, metaclass=AbstractClass):
-	pass
+    pass
 
 class Enter(TypePrimitif):
-	pass
+    pass
 
 class Reel(TypePrimitif):
-	pass
+    pass
 
 class Booleen(TypePrimitif):
-	pass
+    pass
 
 class ChaineDeCaractere(TypePrimitif):
-	pass
+    pass
 
 class Vide(TypePrimitif):
-	pass
+    pass
 
 
 
 class TypeCompose(Type, metaclass=AbstractClass):
-	pass
+    pass
 
 class Tableau(TypeCompose):
-	taille: int
-	type_elements: Type
+    taille: int
+    type_elements: Type
 
 class Enregistrement(TypeCompose):
-	pairs: OneToMany[EnregistrementPair]
+    pairs: OneToMany[EnregistrementPair]
 
 class EnregistrementPair:
-	nom: str
-	type: Type
-	enregistrement: ManyToOne[Enregistrement]
+    nom: str
+    type: Type
+    enregistrement: ManyToOne[Enregistrement]
